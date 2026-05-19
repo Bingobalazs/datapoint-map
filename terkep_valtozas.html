@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_2101875bc285614f8d07960f6bf51c35 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/leaflet.markercluster.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.1.0/MarkerCluster.Default.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_2101875bc285614f8d07960f6bf51c35" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_2101875bc285614f8d07960f6bf51c35 = L.map(
+                "map_2101875bc285614f8d07960f6bf51c35",
+                {
+                    center: [47.1625, 19.5033],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 7,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a964406b8391910b4c287ef772e7ba7e = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a964406b8391910b4c287ef772e7ba7e.addTo(map_2101875bc285614f8d07960f6bf51c35);
+        
+    
+            var marker_cluster_f2ca441b31c51614497ec4fcca779632 = L.markerClusterGroup(
+                {
+}
+            );
+            marker_cluster_f2ca441b31c51614497ec4fcca779632.options.iconCreateFunction =
+                function(cluster) {
+                var markers = cluster.getAllChildMarkers();
+                var sum = 0;
+                // Összeadjuk a markerekben elrejtett 'data-value' értékeket
+                for (var i = 0; i < markers.length; i++) {
+                    var htmlStr = markers[i].options.icon.options.html;
+                    var match = htmlStr.match(/data-value="(-?\d+)"/);
+                    if (match) { sum += parseInt(match[1]); }
+                }
+                
+                // Színkódolás
+                var bgColor = '#f39c12';
+                if ('valtozas' === 'valtozas') {
+                    if (sum > 0) bgColor = '#27ae60';      // Zöld ha pozitív
+                    else if (sum < 0) bgColor = '#e74c3c'; // Piros ha negatív
+                    else bgColor = '#95a5a6';              // Szürke ha nincs változás
+                }
+                
+                var displaySum = (sum > 0 && 'valtozas' === 'valtozas') ? '+' + sum : sum;
+
+                return L.divIcon({
+                    html: '<div style="background-color: ' + bgColor + '; color: white; border-radius: 50%; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.6); font-size: 15px;">' + displaySum + '</div>',
+                    className: '',
+                    iconSize: L.point(45, 45)
+                });
+            };
+        
+    
+            var marker_9187c3abf4580eee58a0b98104442956 = L.marker(
+                [47.034333333333336, 18.524833333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_3dbdc663db7c2b9b09a15725463ecaa0 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_c9a2c3689fb4f775a624e69d5032bee3 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_1ad82b99236f2c4a986591b09667e287 = $(`<div id="html_1ad82b99236f2c4a986591b09667e287" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Aba</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Abaúji Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_c9a2c3689fb4f775a624e69d5032bee3.setContent(html_1ad82b99236f2c4a986591b09667e287);
+            
+        
+
+        marker_9187c3abf4580eee58a0b98104442956.bindPopup(popup_c9a2c3689fb4f775a624e69d5032bee3)
+        ;
+
+        
+    
+    
+            marker_9187c3abf4580eee58a0b98104442956.bindTooltip(
+                `<div>
+                     Aba: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9187c3abf4580eee58a0b98104442956.setIcon(div_icon_3dbdc663db7c2b9b09a15725463ecaa0);
+            
+    
+            var marker_c87ac9ddc5460d8c39a04a2ce2b55064 = L.marker(
+                [47.19266666666667, 20.012],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_1b45f21b49c46faddf05963162f00e1b = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-3\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_6d31d2daa1a9785089340e189d79f6ba = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_767412af44db957a8f677ca3c4dbf68d = $(`<div id="html_767412af44db957a8f677ca3c4dbf68d" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Abony</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Alföldi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #d9534f; font-weight: bold;">nincs 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_6d31d2daa1a9785089340e189d79f6ba.setContent(html_767412af44db957a8f677ca3c4dbf68d);
+            
+        
+
+        marker_c87ac9ddc5460d8c39a04a2ce2b55064.bindPopup(popup_6d31d2daa1a9785089340e189d79f6ba)
+        ;
+
+        
+    
+    
+            marker_c87ac9ddc5460d8c39a04a2ce2b55064.bindTooltip(
+                `<div>
+                     Abony: -3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c87ac9ddc5460d8c39a04a2ce2b55064.setIcon(div_icon_1b45f21b49c46faddf05963162f00e1b);
+            
+    
+            var marker_23b1c5475d9e967e8f0daafd1bab3a37 = L.marker(
+                [47.099, 17.561666666666667],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_58a359b97a8d63738c3cb41f6fb9b705 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"3\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_768887323721330fb5c013fd66130f9a = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_5e808b95f3a16cbfa57cd57279da84a9 = $(`<div id="html_5e808b95f3a16cbfa57cd57279da84a9" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Ajka</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bakonyi Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Ajka Városi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_768887323721330fb5c013fd66130f9a.setContent(html_5e808b95f3a16cbfa57cd57279da84a9);
+            
+        
+
+        marker_23b1c5475d9e967e8f0daafd1bab3a37.bindPopup(popup_768887323721330fb5c013fd66130f9a)
+        ;
+
+        
+    
+    
+            marker_23b1c5475d9e967e8f0daafd1bab3a37.bindTooltip(
+                `<div>
+                     Ajka: +3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_23b1c5475d9e967e8f0daafd1bab3a37.setIcon(div_icon_58a359b97a8d63738c3cb41f6fb9b705);
+            
+    
+            var marker_59fd6788b19ab58c175ecd570cbc7a22 = L.marker(
+                [47.65116666666667, 19.487666666666666],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_cd600e26a53f84a8652ca1711bb2faeb = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"3\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_9d3a47f6ae0e4c53ca2bdc7cfa7c547f = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_9fc03c3a2e228faea5092c0924a5e8a4 = $(`<div id="html_9fc03c3a2e228faea5092c0924a5e8a4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Aszód</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Galga-völgyi Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Aszódi Képzőközpont</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_9d3a47f6ae0e4c53ca2bdc7cfa7c547f.setContent(html_9fc03c3a2e228faea5092c0924a5e8a4);
+            
+        
+
+        marker_59fd6788b19ab58c175ecd570cbc7a22.bindPopup(popup_9d3a47f6ae0e4c53ca2bdc7cfa7c547f)
+        ;
+
+        
+    
+    
+            marker_59fd6788b19ab58c175ecd570cbc7a22.bindTooltip(
+                `<div>
+                     Aszód: +3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_59fd6788b19ab58c175ecd570cbc7a22.setIcon(div_icon_cd600e26a53f84a8652ca1711bb2faeb);
+            
+    
+            var marker_55fd2f177c713a8b7d973d57ffb0ddb0 = L.marker(
+                [46.18666666666667, 18.961166666666667],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_ed0cb8c38bf6a42c519499e11a7b2fad = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-19\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -19\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_bef03eabbaef8e6fb70c3f048924ad9c = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_c4cdf9914be0a51b1058125a73577363 = $(`<div id="html_c4cdf9914be0a51b1058125a73577363" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Baja</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-19</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Sugovica Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">49</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">40</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-9</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Dunamenti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bácskai Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bajai Művészeti Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">19</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">11</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-8</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Duna Szakképzési Centrum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Türr István Általános Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bereczki Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Német Kisebbségi Központ</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">19</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szent László Kollégium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">28</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_bef03eabbaef8e6fb70c3f048924ad9c.setContent(html_c4cdf9914be0a51b1058125a73577363);
+            
+        
+
+        marker_55fd2f177c713a8b7d973d57ffb0ddb0.bindPopup(popup_bef03eabbaef8e6fb70c3f048924ad9c)
+        ;
+
+        
+    
+    
+            marker_55fd2f177c713a8b7d973d57ffb0ddb0.bindTooltip(
+                `<div>
+                     Baja: -19
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_55fd2f177c713a8b7d973d57ffb0ddb0.setIcon(div_icon_ed0cb8c38bf6a42c519499e11a7b2fad);
+            
+    
+            var marker_604c45fa940d5375e340ba2e77386827 = L.marker(
+                [47.170833333333334, 19.7985],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_df8d60592f0e546e8143089fcf46c91d = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"3\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_d37d3e39df90e2259c13f4d7a17c0f6e = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_887fa52a78154bcb1d6f8ebd373661f0 = $(`<div id="html_887fa52a78154bcb1d6f8ebd373661f0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Cegléd</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Ceglédi Kossuth Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Alföldi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">4</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">4</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_d37d3e39df90e2259c13f4d7a17c0f6e.setContent(html_887fa52a78154bcb1d6f8ebd373661f0);
+            
+        
+
+        marker_604c45fa940d5375e340ba2e77386827.bindPopup(popup_d37d3e39df90e2259c13f4d7a17c0f6e)
+        ;
+
+        
+    
+    
+            marker_604c45fa940d5375e340ba2e77386827.bindTooltip(
+                `<div>
+                     Cegléd: +3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_604c45fa940d5375e340ba2e77386827.setIcon(div_icon_df8d60592f0e546e8143089fcf46c91d);
+            
+    
+            var marker_96985d4f883d7e78038e6fe4e07604c4 = L.marker(
+                [47.1815, 19.315833333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_8e767d277faaf89328ee6f7191535f41 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_74bb4dc3714e86335002918a3e98c8f2 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_5b598cf24670b27d64f37faae7439a38 = $(`<div id="html_5b598cf24670b27d64f37faae7439a38" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Dabas</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Dabasi Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Dabasi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_74bb4dc3714e86335002918a3e98c8f2.setContent(html_5b598cf24670b27d64f37faae7439a38);
+            
+        
+
+        marker_96985d4f883d7e78038e6fe4e07604c4.bindPopup(popup_74bb4dc3714e86335002918a3e98c8f2)
+        ;
+
+        
+    
+    
+            marker_96985d4f883d7e78038e6fe4e07604c4.bindTooltip(
+                `<div>
+                     Dabas: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_96985d4f883d7e78038e6fe4e07604c4.setIcon(div_icon_8e767d277faaf89328ee6f7191535f41);
+            
+    
+            var marker_d4506055f22038e9d39bdd4d71f65018 = L.marker(
+                [47.900666666666666, 20.379166666666666],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_180d69568457f5f29c3b913307c847d3 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"2\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +2\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_584db580bc88125436e83f76385f4418 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_68325448e96727ed67ce92cba8ff2428 = $(`<div id="html_68325448e96727ed67ce92cba8ff2428" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Eger</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+2</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Egri Művészeti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">18</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Egri Szakképző Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Egri Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">45</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">42</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Heves Megyei Központ</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">4</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_584db580bc88125436e83f76385f4418.setContent(html_68325448e96727ed67ce92cba8ff2428);
+            
+        
+
+        marker_d4506055f22038e9d39bdd4d71f65018.bindPopup(popup_584db580bc88125436e83f76385f4418)
+        ;
+
+        
+    
+    
+            marker_d4506055f22038e9d39bdd4d71f65018.bindTooltip(
+                `<div>
+                     Eger: +2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d4506055f22038e9d39bdd4d71f65018.setIcon(div_icon_180d69568457f5f29c3b913307c847d3);
+            
+    
+            var marker_b94389ac3792eb2165ac9693434c5728 = L.marker(
+                [47.6165, 19.192166666666665],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_ae188e161508bcb2b601de445b1e421c = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_c5d2b3582faa46204ecb450bc3ba1d39 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_256c4a89f9a424f1e750f5528648cd9e = $(`<div id="html_256c4a89f9a424f1e750f5528648cd9e" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Fót</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Fóti Művészeti Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Fóti Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_c5d2b3582faa46204ecb450bc3ba1d39.setContent(html_256c4a89f9a424f1e750f5528648cd9e);
+            
+        
+
+        marker_b94389ac3792eb2165ac9693434c5728.bindPopup(popup_c5d2b3582faa46204ecb450bc3ba1d39)
+        ;
+
+        
+    
+    
+            marker_b94389ac3792eb2165ac9693434c5728.bindTooltip(
+                `<div>
+                     Fót: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b94389ac3792eb2165ac9693434c5728.setIcon(div_icon_ae188e161508bcb2b601de445b1e421c);
+            
+    
+            var marker_5ad29c031a37ac7b67277402cadc1242 = L.marker(
+                [47.688, 17.632833333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_edc68d16631ab07664d1bb157fdfa4a8 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"3\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_504c8c4600d14bd2bd9e0d509f4da16d = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_22c5b133ae5266fe758d12d3d3a76dd0 = $(`<div id="html_22c5b133ae5266fe758d12d3d3a76dd0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Győr</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Győri Műszaki Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">55</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">60</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Győri Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">40</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">35</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Pannon Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_504c8c4600d14bd2bd9e0d509f4da16d.setContent(html_22c5b133ae5266fe758d12d3d3a76dd0);
+            
+        
+
+        marker_5ad29c031a37ac7b67277402cadc1242.bindPopup(popup_504c8c4600d14bd2bd9e0d509f4da16d)
+        ;
+
+        
+    
+    
+            marker_5ad29c031a37ac7b67277402cadc1242.bindTooltip(
+                `<div>
+                     Győr: +3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5ad29c031a37ac7b67277402cadc1242.setIcon(div_icon_edc68d16631ab07664d1bb157fdfa4a8);
+            
+    
+            var marker_e3673075b9a081dd3abc50e0250c6736 = L.marker(
+                [47.601, 19.356166666666667],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_7d0d6853e4a1b3ca15efdea540cc443b = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"2\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +2\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_320e9b2136babb8f321dcf55f230a8dd = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_f10b86c2cb2dccacccecfe096aac25fd = $(`<div id="html_f10b86c2cb2dccacccecfe096aac25fd" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Gödöllő</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+2</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Agrártudományi Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Gödöllői Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">33</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_320e9b2136babb8f321dcf55f230a8dd.setContent(html_f10b86c2cb2dccacccecfe096aac25fd);
+            
+        
+
+        marker_e3673075b9a081dd3abc50e0250c6736.bindPopup(popup_320e9b2136babb8f321dcf55f230a8dd)
+        ;
+
+        
+    
+    
+            marker_e3673075b9a081dd3abc50e0250c6736.bindTooltip(
+                `<div>
+                     Gödöllő: +2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e3673075b9a081dd3abc50e0250c6736.setIcon(div_icon_7d0d6853e4a1b3ca15efdea540cc443b);
+            
+    
+            var marker_5fc3d01930e01296de99df94d6a4263e = L.marker(
+                [47.6665, 19.677833333333332],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_9df7fd81e36f3c006d79b56ec83d742a = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-3\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_9976c8b23eaff7dfc70370c141cfbf93 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_a61b6569565aabc142171d65280e0ab0 = $(`<div id="html_a61b6569565aabc142171d65280e0ab0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Hatvan</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Hatvani Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Hatvani Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zagyva-menti Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Kerekharaszti Szakiskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #d9534f; font-weight: bold;">nincs 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Hatvani Képzőközpont</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_9976c8b23eaff7dfc70370c141cfbf93.setContent(html_a61b6569565aabc142171d65280e0ab0);
+            
+        
+
+        marker_5fc3d01930e01296de99df94d6a4263e.bindPopup(popup_9976c8b23eaff7dfc70370c141cfbf93)
+        ;
+
+        
+    
+    
+            marker_5fc3d01930e01296de99df94d6a4263e.bindTooltip(
+                `<div>
+                     Hatvan: -3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5fc3d01930e01296de99df94d6a4263e.setIcon(div_icon_9df7fd81e36f3c006d79b56ec83d742a);
+            
+    
+            var marker_0bad115e6cc9a971fd491877a9e4c92d = L.marker(
+                [46.53916666666667, 17.942],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_e9546da71448ebddc5d42da3499db1d6 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_0cc5d9197ee755157729283cbca540bc = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_48ec89d86e8c10c5882ce1ae18c66248 = $(`<div id="html_48ec89d86e8c10c5882ce1ae18c66248" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Igal</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Igali Általános Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #d9534f; font-weight: bold;">nincs 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_0cc5d9197ee755157729283cbca540bc.setContent(html_48ec89d86e8c10c5882ce1ae18c66248);
+            
+        
+
+        marker_0bad115e6cc9a971fd491877a9e4c92d.bindPopup(popup_0cc5d9197ee755157729283cbca540bc)
+        ;
+
+        
+    
+    
+            marker_0bad115e6cc9a971fd491877a9e4c92d.bindTooltip(
+                `<div>
+                     Igal: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0bad115e6cc9a971fd491877a9e4c92d.setIcon(div_icon_e9546da71448ebddc5d42da3499db1d6);
+            
+    
+            var marker_ee2e55e61e495e0e25384e0bcb0ca893 = L.marker(
+                [47.5015, 19.91133333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_f8b72612df6d74365fa4559e93e5a42c = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_2589587e7ad5f58273ba589a1f7eec25 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_32ad1442ae73845f895c97f487ccfd30 = $(`<div id="html_32ad1442ae73845f895c97f487ccfd30" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Jászberény</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Jászberényi Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Jászsági Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">18</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Jászberényi Szakiskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_2589587e7ad5f58273ba589a1f7eec25.setContent(html_32ad1442ae73845f895c97f487ccfd30);
+            
+        
+
+        marker_ee2e55e61e495e0e25384e0bcb0ca893.bindPopup(popup_2589587e7ad5f58273ba589a1f7eec25)
+        ;
+
+        
+    
+    
+            marker_ee2e55e61e495e0e25384e0bcb0ca893.bindTooltip(
+                `<div>
+                     Jászberény: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ee2e55e61e495e0e25384e0bcb0ca893.setIcon(div_icon_f8b72612df6d74365fa4559e93e5a42c);
+            
+    
+            var marker_3b0466f09aa5132f1e279410ec1e5dca = L.marker(
+                [46.3575, 17.795833333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_83a7070216bc8e30ed262ff7599d1a34 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_b6a0e62dcb01ee61e461133075e7294f = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_6fde3220ed4831d5e4e9a2dab87aa0cf = $(`<div id="html_6fde3220ed4831d5e4e9a2dab87aa0cf" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Kaposvár</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Kaposvári Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">32</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Kaposvári Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Somogyi Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Kaposvári Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">9</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_b6a0e62dcb01ee61e461133075e7294f.setContent(html_6fde3220ed4831d5e4e9a2dab87aa0cf);
+            
+        
+
+        marker_3b0466f09aa5132f1e279410ec1e5dca.bindPopup(popup_b6a0e62dcb01ee61e461133075e7294f)
+        ;
+
+        
+    
+    
+            marker_3b0466f09aa5132f1e279410ec1e5dca.bindTooltip(
+                `<div>
+                     Kaposvár: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3b0466f09aa5132f1e279410ec1e5dca.setIcon(div_icon_83a7070216bc8e30ed262ff7599d1a34);
+            
+    
+            var marker_9a4d316393f9d9299f7e0cd3fc6d587a = L.marker(
+                [46.62466666666667, 16.542833333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_7d1c1b7f5347d16f4635f7475885d9a0 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_43111d9ff5667e0cec27db2fdf683d9e = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_94732718675edd269106cd4a83d07e7b = $(`<div id="html_94732718675edd269106cd4a83d07e7b" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Lenti</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Lenti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Göcsej Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">4</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_43111d9ff5667e0cec27db2fdf683d9e.setContent(html_94732718675edd269106cd4a83d07e7b);
+            
+        
+
+        marker_9a4d316393f9d9299f7e0cd3fc6d587a.bindPopup(popup_43111d9ff5667e0cec27db2fdf683d9e)
+        ;
+
+        
+    
+    
+            marker_9a4d316393f9d9299f7e0cd3fc6d587a.bindTooltip(
+                `<div>
+                     Lenti: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9a4d316393f9d9299f7e0cd3fc6d587a.setIcon(div_icon_7d1c1b7f5347d16f4635f7475885d9a0);
+            
+    
+            var marker_45637910bbb4bae8e9bd8c511ce1ea85 = L.marker(
+                [46.2205, 20.480166666666666],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_d9edca5c0e82354755707d635f0cecbf = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_aca40a704f1bf212c749875bdc98c4e8 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_f8b3d3f241a4da4c4e620675054cd601 = $(`<div id="html_f8b3d3f241a4da4c4e620675054cd601" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Makó</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Makói Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Maros-menti Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Makói Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_aca40a704f1bf212c749875bdc98c4e8.setContent(html_f8b3d3f241a4da4c4e620675054cd601);
+            
+        
+
+        marker_45637910bbb4bae8e9bd8c511ce1ea85.bindPopup(popup_aca40a704f1bf212c749875bdc98c4e8)
+        ;
+
+        
+    
+    
+            marker_45637910bbb4bae8e9bd8c511ce1ea85.bindTooltip(
+                `<div>
+                     Makó: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_45637910bbb4bae8e9bd8c511ce1ea85.setIcon(div_icon_d9edca5c0e82354755707d635f0cecbf);
+            
+    
+            var marker_588a32c2ba071faf734157528bb216fd = L.marker(
+                [46.45, 16.992],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_f552cbf33a8738947d7813788ce2f801 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_f236c0004de6041ac570df84962802a4 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_cfa1e2acd4780c2ce0a1a49f7feae7da = $(`<div id="html_cfa1e2acd4780c2ce0a1a49f7feae7da" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Nagykanizsa</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Kanizsai Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Nagykanizsai Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">28</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zala-menti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_f236c0004de6041ac570df84962802a4.setContent(html_cfa1e2acd4780c2ce0a1a49f7feae7da);
+            
+        
+
+        marker_588a32c2ba071faf734157528bb216fd.bindPopup(popup_f236c0004de6041ac570df84962802a4)
+        ;
+
+        
+    
+    
+            marker_588a32c2ba071faf734157528bb216fd.bindTooltip(
+                `<div>
+                     Nagykanizsa: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_588a32c2ba071faf734157528bb216fd.setIcon(div_icon_f552cbf33a8738947d7813788ce2f801);
+            
+    
+            var marker_771ee85b8a67be014d9461442ec07b43 = L.marker(
+                [47.486666666666665, 18.315333333333335],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_8e3530149f580d6382aa4d816703c028 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_0a36f4939e12c0758d8a5a5b2b8939ce = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_4dc24cb7fa5cca0a4066b82e6edb980f = $(`<div id="html_4dc24cb7fa5cca0a4066b82e6edb980f" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Oroszlány</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Oroszlányi Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bányász Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_0a36f4939e12c0758d8a5a5b2b8939ce.setContent(html_4dc24cb7fa5cca0a4066b82e6edb980f);
+            
+        
+
+        marker_771ee85b8a67be014d9461442ec07b43.bindPopup(popup_0a36f4939e12c0758d8a5a5b2b8939ce)
+        ;
+
+        
+    
+    
+            marker_771ee85b8a67be014d9461442ec07b43.bindTooltip(
+                `<div>
+                     Oroszlány: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_771ee85b8a67be014d9461442ec07b43.setIcon(div_icon_8e3530149f580d6382aa4d816703c028);
+            
+    
+            var marker_8cabd4adfe694e56ba290b67139cbb5f = L.marker(
+                [47.32816666666667, 17.470333333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_f80c26cee6f5332372d7606ed1763f6c = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_204f2296679423e109341f17b37fb168 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_cadddfc2151113251513c6c35805df6e = $(`<div id="html_cadddfc2151113251513c6c35805df6e" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Pápa</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Pápai Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Pápai Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Pápai Művészeti Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_204f2296679423e109341f17b37fb168.setContent(html_cadddfc2151113251513c6c35805df6e);
+            
+        
+
+        marker_8cabd4adfe694e56ba290b67139cbb5f.bindPopup(popup_204f2296679423e109341f17b37fb168)
+        ;
+
+        
+    
+    
+            marker_8cabd4adfe694e56ba290b67139cbb5f.bindTooltip(
+                `<div>
+                     Pápa: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8cabd4adfe694e56ba290b67139cbb5f.setIcon(div_icon_f80c26cee6f5332372d7606ed1763f6c);
+            
+    
+            var marker_70f364600739491291e9c695176cd512 = L.marker(
+                [46.909, 18.065333333333335],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_9bdffc83cc7a3d0b143bd5e801601524 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_637affdfc7b67205c84aeebb987aef7d = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_3643db0d8ec90b355fd4ca4d4190ea7c = $(`<div id="html_3643db0d8ec90b355fd4ca4d4190ea7c" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Siófok</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Balatoni Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">18</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Siófoki Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">18</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Balaton-parti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_637affdfc7b67205c84aeebb987aef7d.setContent(html_3643db0d8ec90b355fd4ca4d4190ea7c);
+            
+        
+
+        marker_70f364600739491291e9c695176cd512.bindPopup(popup_637affdfc7b67205c84aeebb987aef7d)
+        ;
+
+        
+    
+    
+            marker_70f364600739491291e9c695176cd512.bindTooltip(
+                `<div>
+                     Siófok: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_70f364600739491291e9c695176cd512.setIcon(div_icon_9bdffc83cc7a3d0b143bd5e801601524);
+            
+    
+            var marker_2c2df94ba8eb3eeef054ed41c900333e = L.marker(
+                [47.6835, 16.579833333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_dc5122c7b71ffb37e3b2ad5ed3251742 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_367f5a3dd27a583e50d9b7422fc9415f = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_c3f4785eea2179a46b867a63f892d177 = $(`<div id="html_c3f4785eea2179a46b867a63f892d177" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Sopron</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Soproni Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">35</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">38</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Soproni Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">40</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">36</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-4</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Hűség Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_367f5a3dd27a583e50d9b7422fc9415f.setContent(html_c3f4785eea2179a46b867a63f892d177);
+            
+        
+
+        marker_2c2df94ba8eb3eeef054ed41c900333e.bindPopup(popup_367f5a3dd27a583e50d9b7422fc9415f)
+        ;
+
+        
+    
+    
+            marker_2c2df94ba8eb3eeef054ed41c900333e.bindTooltip(
+                `<div>
+                     Sopron: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2c2df94ba8eb3eeef054ed41c900333e.setIcon(div_icon_dc5122c7b71ffb37e3b2ad5ed3251742);
+            
+    
+            var marker_c75c0a2f9c29efc249447a6282fb16b6 = L.marker(
+                [46.24916666666667, 20.16283333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_e513cdacafefa2cfe90e1ad254017595 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_43777b60e025415d6be82a7649246fb3 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_799548b33d72a4e386ee71440c5239a1 = $(`<div id="html_799548b33d72a4e386ee71440c5239a1" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Szeged</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szegedi Technikum I.</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">50</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">55</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szegedi Gimnázium I.</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">45</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">40</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szegedi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">32</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szegedi Művészeti Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tisza-parti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szegedi Gimnázium II.</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_43777b60e025415d6be82a7649246fb3.setContent(html_799548b33d72a4e386ee71440c5239a1);
+            
+        
+
+        marker_c75c0a2f9c29efc249447a6282fb16b6.bindPopup(popup_43777b60e025415d6be82a7649246fb3)
+        ;
+
+        
+    
+    
+            marker_c75c0a2f9c29efc249447a6282fb16b6.bindTooltip(
+                `<div>
+                     Szeged: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c75c0a2f9c29efc249447a6282fb16b6.setIcon(div_icon_e513cdacafefa2cfe90e1ad254017595);
+            
+    
+            var marker_031742af2b86e367dc9a6120dbc8eec0 = L.marker(
+                [46.656333333333336, 20.261833333333332],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_855ef05342eaba35ae0e72dc84c8518c = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-3\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_09ca675ad9496eef3269b40995cbdf15 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_120df82d9ddd292c3f854999fbb2929c = $(`<div id="html_120df82d9ddd292c3f854999fbb2929c" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Szentes</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szentesi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szentesi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">14</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_09ca675ad9496eef3269b40995cbdf15.setContent(html_120df82d9ddd292c3f854999fbb2929c);
+            
+        
+
+        marker_031742af2b86e367dc9a6120dbc8eec0.bindPopup(popup_09ca675ad9496eef3269b40995cbdf15)
+        ;
+
+        
+    
+    
+            marker_031742af2b86e367dc9a6120dbc8eec0.bindTooltip(
+                `<div>
+                     Szentes: -3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_031742af2b86e367dc9a6120dbc8eec0.setIcon(div_icon_855ef05342eaba35ae0e72dc84c8518c);
+            
+    
+            var marker_d519ab8e5f646dbe4ac914426678a577 = L.marker(
+                [47.17933333333333, 20.1875],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_8a6794a2ff0814d5d6d7c9fd4ed97b08 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-2\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -2\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_00b0efed0416b8a1bfa6929925723656 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_e055ba1d9e851104736a8480078829cb = $(`<div id="html_e055ba1d9e851104736a8480078829cb" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Szolnok</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-2</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szolnoki Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">40</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">42</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szolnoki Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">35</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-5</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Szolnoki Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tisza Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">7</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_00b0efed0416b8a1bfa6929925723656.setContent(html_e055ba1d9e851104736a8480078829cb);
+            
+        
+
+        marker_d519ab8e5f646dbe4ac914426678a577.bindPopup(popup_00b0efed0416b8a1bfa6929925723656)
+        ;
+
+        
+    
+    
+            marker_d519ab8e5f646dbe4ac914426678a577.bindTooltip(
+                `<div>
+                     Szolnok: -2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d519ab8e5f646dbe4ac914426678a577.setIcon(div_icon_8a6794a2ff0814d5d6d7c9fd4ed97b08);
+            
+    
+            var marker_b159e27d3f658220c497d2d9a64eec56 = L.marker(
+                [47.64416666666666, 18.332333333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_a974db0d23324ab47b881a0e07aafd11 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_8d1665cb2d0112564d2ea3ee7e3abb1c = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_8be7147b23e66f7b276d7de550e5aec4 = $(`<div id="html_8be7147b23e66f7b276d7de550e5aec4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Tata</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tatai Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">12</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tatai Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">18</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">16</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Öreg-tó Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_8d1665cb2d0112564d2ea3ee7e3abb1c.setContent(html_8be7147b23e66f7b276d7de550e5aec4);
+            
+        
+
+        marker_b159e27d3f658220c497d2d9a64eec56.bindPopup(popup_8d1665cb2d0112564d2ea3ee7e3abb1c)
+        ;
+
+        
+    
+    
+            marker_b159e27d3f658220c497d2d9a64eec56.bindTooltip(
+                `<div>
+                     Tata: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b159e27d3f658220c497d2d9a64eec56.setIcon(div_icon_a974db0d23324ab47b881a0e07aafd11);
+            
+    
+            var marker_bf87c929c52482c1d8a79c2af1162c0e = L.marker(
+                [47.56733333333333, 18.408833333333334],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_9494f9ecf115277bf1d1d8da7be5bc5e = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_c673d948b51b712f2eaf8f6625aa0259 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_5a5fb8832c397bad03bd87ecc759ba8e = $(`<div id="html_5a5fb8832c397bad03bd87ecc759ba8e" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Tatabánya</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tatabányai Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">33</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tatabányai Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Vértesi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">15</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_c673d948b51b712f2eaf8f6625aa0259.setContent(html_5a5fb8832c397bad03bd87ecc759ba8e);
+            
+        
+
+        marker_bf87c929c52482c1d8a79c2af1162c0e.bindPopup(popup_c673d948b51b712f2eaf8f6625aa0259)
+        ;
+
+        
+    
+    
+            marker_bf87c929c52482c1d8a79c2af1162c0e.bindTooltip(
+                `<div>
+                     Tatabánya: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bf87c929c52482c1d8a79c2af1162c0e.setIcon(div_icon_9494f9ecf115277bf1d1d8da7be5bc5e);
+            
+    
+            var marker_b2253a92239a5c7d857c8944bef7b93c = L.marker(
+                [47.0915, 17.911],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_df83e23aa2d984ccbe7ff4261dc5725f = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_7ac1102442b42b8944c79a402cf9f69a = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_bf39f0d3c240e7d39d5e75ca82f359d0 = $(`<div id="html_bf39f0d3c240e7d39d5e75ca82f359d0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Veszprém</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Veszprémi Műszaki Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">28</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Veszprémi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">30</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">27</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bakony Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">10</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">11</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_7ac1102442b42b8944c79a402cf9f69a.setContent(html_bf39f0d3c240e7d39d5e75ca82f359d0);
+            
+        
+
+        marker_b2253a92239a5c7d857c8944bef7b93c.bindPopup(popup_7ac1102442b42b8944c79a402cf9f69a)
+        ;
+
+        
+    
+    
+            marker_b2253a92239a5c7d857c8944bef7b93c.bindTooltip(
+                `<div>
+                     Veszprém: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b2253a92239a5c7d857c8944bef7b93c.setIcon(div_icon_df83e23aa2d984ccbe7ff4261dc5725f);
+            
+    
+            var marker_5994fb37d75af4af8bf66231de98171b = L.marker(
+                [47.783833333333334, 19.134833333333333],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_826984a8eb51dec2cbbcc350ce744fe5 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_943b3a88533ba4b755f5013b5e1e1ce1 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_2c760e41f09fa8e4c8e05694e7f7c0ae = $(`<div id="html_2c760e41f09fa8e4c8e05694e7f7c0ae" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Vác</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Váci Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Váci Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">19</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-3</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Dunakanyar Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">7</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_943b3a88533ba4b755f5013b5e1e1ce1.setContent(html_2c760e41f09fa8e4c8e05694e7f7c0ae);
+            
+        
+
+        marker_5994fb37d75af4af8bf66231de98171b.bindPopup(popup_943b3a88533ba4b755f5013b5e1e1ce1)
+        ;
+
+        
+    
+    
+            marker_5994fb37d75af4af8bf66231de98171b.bindTooltip(
+                `<div>
+                     Vác: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5994fb37d75af4af8bf66231de98171b.setIcon(div_icon_826984a8eb51dec2cbbcc350ce744fe5);
+            
+    
+            var marker_9e62f272234bd4f526a4cd308f0e48b3 = L.marker(
+                [46.835, 16.8385],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_013bc8a554e1d7585fec149bb0487621 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_de8fe8281a0654eb10fc68dd2ede0561 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_07b6db3fa6417267fa419d525b53e4b0 = $(`<div id="html_07b6db3fa6417267fa419d525b53e4b0" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Zalaegerszeg</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zalaegerszegi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">25</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">26</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zalaegerszegi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">22</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">20</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Göcseji Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">8</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_de8fe8281a0654eb10fc68dd2ede0561.setContent(html_07b6db3fa6417267fa419d525b53e4b0);
+            
+        
+
+        marker_9e62f272234bd4f526a4cd308f0e48b3.bindPopup(popup_de8fe8281a0654eb10fc68dd2ede0561)
+        ;
+
+        
+    
+    
+            marker_9e62f272234bd4f526a4cd308f0e48b3.bindTooltip(
+                `<div>
+                     Zalaegerszeg: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9e62f272234bd4f526a4cd308f0e48b3.setIcon(div_icon_013bc8a554e1d7585fec149bb0487621);
+            
+    
+            var marker_262d517e68c7594b72be0a35ec1fd557 = L.marker(
+                [47.2625, 17.8765],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_d931757aa303e883b3c978b367fa506e = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-3\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -3\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_0fcd083038025f27c27162ee3cdd9d24 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_20344ecb285769195d099a64525816e1 = $(`<div id="html_20344ecb285769195d099a64525816e1" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Zirc</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-3</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zirci Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zirci Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Bakonyi Szakiskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #d9534f; font-weight: bold;">nincs 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_0fcd083038025f27c27162ee3cdd9d24.setContent(html_20344ecb285769195d099a64525816e1);
+            
+        
+
+        marker_262d517e68c7594b72be0a35ec1fd557.bindPopup(popup_0fcd083038025f27c27162ee3cdd9d24)
+        ;
+
+        
+    
+    
+            marker_262d517e68c7594b72be0a35ec1fd557.bindTooltip(
+                `<div>
+                     Zirc: -3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_262d517e68c7594b72be0a35ec1fd557.setIcon(div_icon_d931757aa303e883b3c978b367fa506e);
+            
+    
+            var marker_b347e54b9718c31d507052c8e10862de = L.marker(
+                [47.54716666666667, 18.720833333333335],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_434e405b0b9312baf5772b53666d7d55 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"1\" style=\"background-color: #27ae60; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                +1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_43f29bf1f18df4aaec578fc0aca4d997 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_67fb7c86678def18f6c2fbb9a4a4acb4 = $(`<div id="html_67fb7c86678def18f6c2fbb9a4a4acb4" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Zsámbék</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #27ae60; font-size: 16px; font-weight: bold;">+1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zsámbéki Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zsámbéki Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">6</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zsámbéki Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">4</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                 </table></div></div>`)[0];
+                popup_43f29bf1f18df4aaec578fc0aca4d997.setContent(html_67fb7c86678def18f6c2fbb9a4a4acb4);
+            
+        
+
+        marker_b347e54b9718c31d507052c8e10862de.bindPopup(popup_43f29bf1f18df4aaec578fc0aca4d997)
+        ;
+
+        
+    
+    
+            marker_b347e54b9718c31d507052c8e10862de.bindTooltip(
+                `<div>
+                     Zsámbék: +1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b347e54b9718c31d507052c8e10862de.setIcon(div_icon_434e405b0b9312baf5772b53666d7d55);
+            
+    
+            var marker_0da18ec75323f00c4d6b4bca56f2d663 = L.marker(
+                [48.40983333333333, 22.189666666666668],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_fc33637d14be42c4cc717915d8ca6361 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"0\" style=\"background-color: #95a5a6; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                0\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_9352379a2666f83396c6c7c51f8f1367 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_51a24cb3a40ae399a12a7c30380d1f46 = $(`<div id="html_51a24cb3a40ae399a12a7c30380d1f46" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Záhony</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #95a5a6; font-size: 16px; font-weight: bold;">0</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Záhonyi Szakképző</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">3</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">2</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Záhonyi Gimnázium</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">5</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: black; font-weight: bold;">meglévő</td>                     </tr>                                      <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Tisza-menti Technikum</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #5cb85c; font-weight: bold;">új 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_9352379a2666f83396c6c7c51f8f1367.setContent(html_51a24cb3a40ae399a12a7c30380d1f46);
+            
+        
+
+        marker_0da18ec75323f00c4d6b4bca56f2d663.bindPopup(popup_9352379a2666f83396c6c7c51f8f1367)
+        ;
+
+        
+    
+    
+            marker_0da18ec75323f00c4d6b4bca56f2d663.bindTooltip(
+                `<div>
+                     Záhony: 0
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0da18ec75323f00c4d6b4bca56f2d663.setIcon(div_icon_fc33637d14be42c4cc717915d8ca6361);
+            
+    
+            var marker_54e953105af4e2a3e0183b22e86aadaa = L.marker(
+                [46.26116666666667, 16.947666666666667],
+                {
+}
+            ).addTo(marker_cluster_f2ca441b31c51614497ec4fcca779632);
+        
+    
+            var div_icon_ee669de13c4df421526f3f6da77ba712 = L.divIcon({
+  "html": "\n            \u003cdiv data-value=\"-1\" style=\"background-color: #e74c3c; color: white; border-radius: 50%; width: 35px; height: 35px; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5); font-size: 13px;\"\u003e\n                -1\n            \u003c/div\u003e\n            ",
+  "iconAnchor": [17, 17],
+  "className": "empty",
+});
+        
+    
+        var popup_84bd0a431c8f79efbc85dbaa57f58ac3 = L.popup({
+  "maxWidth": 450,
+});
+
+        
+            
+                var html_f24c7d4a8a6558886600739904205738 = $(`<div id="html_f24c7d4a8a6558886600739904205738" style="width: 100.0%; height: 100.0%;">             <div style="font-family: Arial; min-width: 320px;">                 <h3 style="margin-bottom: 5px; color: #333;">Zákány</h3>                 <div style="background: #f4f4f4; padding: 5px; margin-bottom: 10px; border-radius: 4px;">                     <b>Változás (2024 -> 2025) összesen:</b> <span style="color: #e74c3c; font-size: 16px; font-weight: bold;">-1</span>                 </div>                 <table style="width: 100%; border-collapse: collapse; font-size: 12px;">                     <tr style="background: #e9ecef;">                         <th style="padding: 4px; border: 1px solid #ccc; text-align: left;">Iskola</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'24</th>                         <th style="padding: 4px; border: 1px solid #ccc;">'25</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Vált.</th>                         <th style="padding: 4px; border: 1px solid #ccc;">Státusz</th>                     </tr>                                  <tr>                         <td style="padding: 4px; border: 1px solid #ccc;">Zákányi Iskola</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">1</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center;">0</td>                         <td style="padding: 4px; border: 1px solid #ccc; text-align: center; font-weight: bold;">-1</td>                         <td style="padding: 4px; border: 1px solid #ccc; color: #d9534f; font-weight: bold;">nincs 2025-ben</td>                     </tr>                 </table></div></div>`)[0];
+                popup_84bd0a431c8f79efbc85dbaa57f58ac3.setContent(html_f24c7d4a8a6558886600739904205738);
+            
+        
+
+        marker_54e953105af4e2a3e0183b22e86aadaa.bindPopup(popup_84bd0a431c8f79efbc85dbaa57f58ac3)
+        ;
+
+        
+    
+    
+            marker_54e953105af4e2a3e0183b22e86aadaa.bindTooltip(
+                `<div>
+                     Zákány: -1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_54e953105af4e2a3e0183b22e86aadaa.setIcon(div_icon_ee669de13c4df421526f3f6da77ba712);
+            
+    
+            marker_cluster_f2ca441b31c51614497ec4fcca779632.addTo(map_2101875bc285614f8d07960f6bf51c35);
+        
+</script>
+</html>
