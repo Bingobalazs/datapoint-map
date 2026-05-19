@@ -1,4 +1,6 @@
 
+<img width="728" height="445" alt="image" src="https://github.com/user-attachments/assets/82fe11e1-726c-43ce-be0f-bc397e8e50d8" />
+
 ---
 
 # Iskolai Adatvizualizáció (Térkép Generátor)
